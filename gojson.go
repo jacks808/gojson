@@ -265,6 +265,21 @@ func (j *GoJson) Get(key string) *GoJson {
 	}
 }
 
+// 获得key对应的string，若key不存在，则返回空字符串
+func (j *GoJson) GetString(key string) string {
+	m, ok := getMap(key, j.data)
+	if !ok {
+		return ""
+	}
+
+	g := &GoJson{
+		prev:    j,
+		prevKey: key,
+		data:    m,
+	}
+	return ToString(g)
+}
+
 // maintainParent 维护这个节点与父节点的关系
 func maintainParent(child *GoJson) {
 	if child.prev == nil {
