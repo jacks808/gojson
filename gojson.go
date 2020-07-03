@@ -1,4 +1,4 @@
-package main
+package gojson
 
 /*
     GoJson是对json的封装，用interface{} 屏蔽了对结构体的使用依赖。
