@@ -24,15 +24,13 @@ import (
 	sysjson "encoding/json"
 	"errors"
 	"fmt"
+	jsoniterator "github.com/json-iterator/go"
 	"io"
 	"log"
 	"math"
 	"strconv"
 	"strings"
 	"sync"
-	"unsafe"
-
-	jsoniterator "github.com/json-iterator/go"
 )
 
 var json = jsoniterator.ConfigCompatibleWithStandardLibrary
@@ -682,8 +680,7 @@ func ToString(obj interface{}) string {
 
 func ToJsonString(obj interface{}) string{
 	bytes, _ := json.Marshal(obj)
-	// byte数组直接转成string对象，不发生内存copy, benchmark比常规转换性能提升数倍，适合[]byte只读的情况
-	return *(*string)(unsafe.Pointer(&bytes))
+	return string(bytes)
 }
 
 func ToInt(intObj interface{}) (int, error) {
