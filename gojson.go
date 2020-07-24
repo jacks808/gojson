@@ -30,6 +30,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"unsafe"
 
 	jsoniterator "github.com/json-iterator/go"
 )
@@ -677,6 +678,12 @@ func ToString(obj interface{}) string {
 	default:
 		return fmt.Sprintf("%v", obj)
 	}
+}
+
+func ToJsonString(obj interface{}) string{
+	bytes, _ := json.Marshal(obj)
+	// byte数组直接转成string对象，不发生内存copy, benchmark比常规转换性能提升数倍，适合[]byte只读的情况
+	return *(*string)(unsafe.Pointer(&bytes))
 }
 
 func ToInt(intObj interface{}) (int, error) {
