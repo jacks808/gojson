@@ -506,6 +506,16 @@ func (j *GoJson) Array() ([]interface{}, error) {
 	}
 }
 
+// IsString 如果json值为string, 则返回true, 否则false
+func (j *GoJson) IsString() bool {
+	return fmt.Sprintf("%T", j.data) == "string"
+}
+
+// Type 返回json值的类型, see: fmt.Sprintf("%T", foo)
+func (j *GoJson) Type() string {
+	return fmt.Sprintf("%T", j.data)
+}
+
 // RangeMap 遍历kv结构， 传入的函数用于处理遍历。如果这个函数返回false，遍历将立刻结束
 func (j *GoJson) RangeMap(f func(key string, val interface{}) bool) error {
 	if j.IsMap() == false {
@@ -678,7 +688,7 @@ func ToString(obj interface{}) string {
 	}
 }
 
-func ToJsonString(obj interface{}) string{
+func ToJsonString(obj interface{}) string {
 	bytes, _ := json.Marshal(obj)
 	return string(bytes)
 }
